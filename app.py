@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap
 
 from db import db_init, db
 from models import Img
+from models import Users
 
 
 app = Flask(__name__)
@@ -28,6 +29,23 @@ def user():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == "POST":
+        username = request.form['username']
+        if not username:
+            return 'No username entered!', 400
+        email = request.form['email']
+        if not email:
+            return 'No email entered!', 400
+        password = request.form['password']
+        if not password:
+            return 'No password entered!', 400
+
+        user = Users(username=username,email=email,password=password)
+        db.session.add(user)
+        db.session.commit()
+
+        return 'User Created!', 200
+        return render_template("user.html", user=user)
     return render_template('register.html')
 
 
@@ -45,7 +63,6 @@ def about():
 @app.route('/gallery', methods=['GET', 'POST'])
 def gallery():
     return render_template('about.html')
-
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
