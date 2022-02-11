@@ -12,6 +12,8 @@ Bootstrap(app)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:peterlustig@localhost/img'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SESSION_PERMANENT"] = False
+
 db_init(app)
 
 
@@ -31,6 +33,7 @@ def login():
 
 
         user = Users.query.filter_by(email=email).first()
+
         if user.email == email and user.password == password:
             return render_template("user.html")
         else:
@@ -39,7 +42,7 @@ def login():
 
 @app.route('/user', methods=['GET', 'POST'])
 def user():
-    return render_template('user.html')
+    return render_template("user.html")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -58,13 +61,13 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        return 'User Created!', 200
-        return render_template("user.html", user=user)
+        return render_template("user.html", user=user.username)
     return render_template('register.html')
 
 
 @app.route('/<int:id>')
 def get_img(id):
+
     img = Img.query.filter_by(id=id).first()
     if not img:
         return 'Img Not Found!', 404
