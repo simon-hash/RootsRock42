@@ -21,6 +21,20 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == "POST":
+        email = request.form['email']
+        if not email:
+            return 'No email entered!', 400
+        password = request.form['password']
+        if not password:
+            return 'No password entered!', 400
+
+
+        user = Users.query.filter_by(email=email).first()
+        if user.email == email and user.password == password:
+            return render_template("user.html")
+        else:
+            return render_template("register.html")
     return render_template('login.html')
 
 @app.route('/user', methods=['GET', 'POST'])
