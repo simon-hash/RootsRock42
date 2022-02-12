@@ -29,10 +29,12 @@ def login():
         if not password:
             return 'No password entered!', 400
 
-
         user = Users.query.filter_by(email=email).first()
+        db.session.add(user)
+        db.session.commit()
+
         if user.email == email and user.password == password:
-            return render_template("user.html")
+            return render_template("user.html", user=user.username)
         else:
             return render_template("register.html")
     return render_template('login.html')
