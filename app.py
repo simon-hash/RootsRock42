@@ -10,7 +10,8 @@ from models import Users
 app = Flask(__name__)
 Bootstrap(app)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:peterlustig@localhost/img'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:peterlustig@localhost/img'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://yvgmfgumvoibee:f3ae514193466ef3cff784d389a02dc1f64aee40c56364980b3d2d68d4bc84c6@ec2-44-194-92-192.compute-1.amazonaws.com:5432/d68sr942hru7ps'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db_init(app)
 
